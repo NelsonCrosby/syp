@@ -1,0 +1,29 @@
+{
+  "name": "syp",
+  "version": "0.0.0",
+  "description": "Sort Your Projects",
+  "main": "index.js",
+  "directories": {
+    "test": "test"
+  },
+  "scripts": {
+    "test": "mocha"
+  },
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/NelsonCrosby/syp.git"
+  },
+  "author": "Nelson Crosby <ncrosby@sourcecomb.com>",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/NelsonCrosby/syp/issues"
+  },
+  "homepage": "https://github.com/NelsonCrosby/syp",
+  "devDependencies": {
+    "mocha": "^2.2.5",
+    "mock-fs": "^3.0.0"
+  },
+  "dependencies": {
+    "simple-argparse": "0.0.0"
+  }
+}

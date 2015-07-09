@@ -1,5 +1,10 @@
 # Sort Your Projects
 
+**_This project is pre-alpha, and not ready for use. If you
+would like to help out, check out the repo at
+https://github.com/NelsonCrosby/syp and ask what needs doing
+at https://gitter.im/NelsonCrosby/syp_**
+
 If you're anything like me, then you're trying to find a way to
 keep your projects organized. You've probably come up with a
 system of directories and such, using the filesystem to help you
