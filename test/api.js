@@ -1,14 +1,53 @@
 'use strict'
 
+require('should')
+
 describe('API', function () {
+  var mockFS = require('mock-fs')
+  var syp = require('../api')
+    , utils = require('../api/utils')
+
+  var testVar = Math.random()
+    , realHome
+
+  before(function () {
+    realHome = utils.HOME
+    utils.HOME = 'home'
+
+    var fs = {}
+    fs[utils.HOME] = {
+      '.syp-cfg.json': JSON.stringify({
+        extend: 'extend-test.json',
+        X_test_var: testVar
+      }),
+      'extend-test.json': JSON.stringify({
+        X_test_var: testVar + 1,
+        X_test_var_2: testVar + 1
+      })
+    }
+    mockFS(fs)
+  })
+
+  after(function () {
+    mockFS.restore()
+    utils.HOME = realHome
+  })
+
   describe('.load()', function () {
-    it('should load the default SYP config file')
+    it('should load the default SYP config file', function () {
+      syp.load()
+      syp.config.X_test_var.should.equal(testVar)
+    })
     it('should ensure the entire config file is valid')
     it('should load the default SYP index file')
     it('should ensure the entire SYP index file is valid')
     it('should load all SYP index files specified in config')
     it('should not allow any indexes to have duplicate project names')
-    it('should load source SYP config files (config.extend)')
+    it('should load source SYP config files (config.extend)', function () {
+      syp.load()
+      syp.config.X_test_var.should.equal(testVar)
+      syp.config.X_test_var_2.should.equal(testVar + 1)
+    })
     it('should load all SYP index files in extend path')
   })
 
