@@ -129,7 +129,7 @@ describe('API', function () {
           new syp.Project({ path: null })
         }).should.throw({ attr: 'path', problem: 'required' })
         // Check for type errors
-        (function () {
+        ;(function () {
           new syp.Project({ name: 1234, path: '~' })
         }).should.throw({ attr: 'name', problem: 'type' })
         ;(function () {
