@@ -1,5 +1,7 @@
 # Sort Your Projects
 
+[![Join the chat at https://gitter.im/NelsonCrosby/syp](https://badges.gitter.im/Join%20Chat.svg)](https://gitter.im/NelsonCrosby/syp?utm_source=badge&utm_medium=badge&utm_campaign=pr-badge&utm_content=badge)
+
 If you're anything like me, then you're trying to find a way to
 keep your projects organized. You've probably come up with a
 system of directories and such, using the filesystem to help you
