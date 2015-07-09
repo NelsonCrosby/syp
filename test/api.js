@@ -11,29 +11,37 @@ describe('API', function () {
     , realHome
 
   before(function () {
+    // mock-fs has a problem with my actual HOME.
+    // This might also be the case with others; we won't take the risk.
     realHome = utils.HOME
     utils.HOME = 'home'
 
+    // Create the mock FS
     var fs = {}
     fs[utils.HOME] = {
+      // `~/.syp-cfg.json` - the main config
       '.syp-cfg.json': JSON.stringify({
         extend: 'extend-test.json',
         X_test_var: testVar
       }),
+      // `~/extend-test.json` - test parent config
       'extend-test.json': JSON.stringify({
         extend: 'extend-test-2.json',
         X_test_var: testVar + 1,
         X_test_var_2: testVar + 1
       }),
+      // `~/extend-test-2.json` - test grandparent config
       'extend-test-2.json': JSON.stringify({
         X_test_var_2: testVar + 2,
         X_test_var_3: testVar + 2
       })
     }
+    // Init the mock FS
     mockFS(fs)
   })
 
   after(function () {
+    // Reset everything back to the way it should be
     mockFS.restore()
     utils.HOME = realHome
   })
@@ -41,6 +49,7 @@ describe('API', function () {
   describe('.load()', function () {
     it('should load the default SYP config file', function () {
       syp.load()
+      // Should load X_test_var
       syp.config.X_test_var.should.equal(testVar)
     })
     it('should ensure the entire config file is valid')
@@ -50,6 +59,8 @@ describe('API', function () {
     it('should not allow any indexes to have duplicate project names')
     it('should load source SYP config files (config.extend)', function () {
       syp.load()
+      // Should load parent test vars, but parent vars should not overwrite
+      // child vars.
       syp.config.X_test_var.should.equal(testVar)
       syp.config.X_test_var_2.should.equal(testVar + 1)
       syp.config.X_test_var_3.should.equal(testVar + 2)
@@ -106,12 +117,18 @@ describe('API', function () {
           description: 'A test project description'
         })
 
+        // Check everything is in it's rightful place
         project.name.should.equal('Test project')
         project.path.should.equal('~/Projects/test-project')
         project.categories.should.have.length(2)
         project.description.should.equal('A test project description')
       })
       it('should ensure the entire object is valid', function () {
+        // Path must be required
+        ;(function () {
+          new syp.Project({ path: null })
+        }).should.throw({ attr: 'path', problem: 'required' })
+        // Check for type errors
         (function () {
           new syp.Project({ name: 1234, path: '~' })
         }).should.throw({ attr: 'name', problem: 'type' })
@@ -119,14 +136,12 @@ describe('API', function () {
           new syp.Project({ path: 1234 })
         }).should.throw({ attr: 'path', problem: 'type' })
         ;(function () {
-          new syp.Project({ path: null })
-        }).should.throw({ attr: 'path', problem: 'required' })
-        ;(function () {
           new syp.Project({ description: 1234, path: '~' })
         }).should.throw({ attr: 'description', problem: 'type' })
         ;(function () {
           new syp.Project({ categories: 1234, path: '~' })
         }).should.throw({ attr: 'categories', problem: 'type' })
+        // Check for error in nested type
         ;(function () {
           new syp.Project({ categories: ['cat', 1234], path: '~' })
         }).should.throw({ attr: 'categories', problem: 'nested-type', key: 1 })
