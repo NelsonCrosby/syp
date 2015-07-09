@@ -51,7 +51,7 @@ describe('API', function () {
     it('should load all SYP index files in extend path')
   })
 
-  describe('.Index', function () {
+  describe('.ProjectIndex', function () {
     describe('#constructor()', function () {
       it('should instantiate an empty index')
       it('should begin populating the index with passed parameters')
@@ -92,8 +92,39 @@ describe('API', function () {
 
   describe('.Project', function () {
     describe('#constructor()', function () {
-      it('should load all standard attributes')
-      it('should ensure the entire object is valid')
+      it('should load all standard attributes', function () {
+        var project = new syp.Project({
+          name: 'Test project',
+          path: '~/Projects/test-project',
+          categories: ['Category 1', 'Category 2'],
+          description: 'A test project description'
+        })
+
+        project.name.should.equal('Test project')
+        project.path.should.equal('~/Projects/test-project')
+        project.categories.should.have.length(2)
+        project.description.should.equal('A test project description')
+      })
+      it('should ensure the entire object is valid', function () {
+        (function () {
+          new syp.Project({ name: 1234, path: '~' })
+        }).should.throw({ attr: 'name', problem: 'type' })
+        ;(function () {
+          new syp.Project({ path: 1234 })
+        }).should.throw({ attr: 'path', problem: 'type' })
+        ;(function () {
+          new syp.Project({ path: null })
+        }).should.throw({ attr: 'path', problem: 'required' })
+        ;(function () {
+          new syp.Project({ description: 1234, path: '~' })
+        }).should.throw({ attr: 'description', problem: 'type' })
+        ;(function () {
+          new syp.Project({ categories: 1234, path: '~' })
+        }).should.throw({ attr: 'categories', problem: 'type' })
+        ;(function () {
+          new syp.Project({ categories: ['cat', 1234], path: '~' })
+        }).should.throw({ attr: 'categories', problem: 'nested-type', key: 1 })
+      })
       it('should fill in any attributes with their defaults')
       it('should register the project with the index, unless told otherwise')
       it("should create any directories that don't already exist")

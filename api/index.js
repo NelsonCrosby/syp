@@ -21,3 +21,5 @@ var load = function (fpath) {
 exports.load = function () {
   exports.config = load(path.join(utils.HOME, '.syp-cfg.json'))
 }
+
+exports.Project = require('./Project')
