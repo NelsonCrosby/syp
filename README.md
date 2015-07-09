@@ -1,5 +1,7 @@
 # Sort Your Projects
 
+[![Join the chat at https://gitter.im/NelsonCrosby/syp](https://badges.gitter.im/Join%20Chat.svg)](https://gitter.im/NelsonCrosby/syp?utm_source=badge&utm_medium=badge&utm_campaign=pr-badge&utm_content=badge)
+
 **_This project is pre-alpha, and not ready for use. If you
 would like to help out, check out the repo at
 https://github.com/NelsonCrosby/syp and ask what needs doing
