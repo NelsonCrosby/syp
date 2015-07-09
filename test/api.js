@@ -21,8 +21,13 @@ describe('API', function () {
         X_test_var: testVar
       }),
       'extend-test.json': JSON.stringify({
+        extend: 'extend-test-2.json',
         X_test_var: testVar + 1,
         X_test_var_2: testVar + 1
+      }),
+      'extend-test-2.json': JSON.stringify({
+        X_test_var_2: testVar + 2,
+        X_test_var_3: testVar + 2
       })
     }
     mockFS(fs)
@@ -47,6 +52,7 @@ describe('API', function () {
       syp.load()
       syp.config.X_test_var.should.equal(testVar)
       syp.config.X_test_var_2.should.equal(testVar + 1)
+      syp.config.X_test_var_3.should.equal(testVar + 2)
     })
     it('should load all SYP index files in extend path')
   })
